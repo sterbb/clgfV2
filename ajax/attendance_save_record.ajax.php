@@ -22,7 +22,7 @@ class saveAttendance{
     $attendancelist = $this->attendancelist;
 
     if($type == ''){
-      $type = "General";
+      $type = "General Event";
     }
 
     $data = array("stime"=>$stime,

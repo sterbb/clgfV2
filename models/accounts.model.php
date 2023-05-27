@@ -105,7 +105,6 @@ class ModelAccounts{
 		$stmt -> execute();
 		$result = $stmt -> fetch();
 
-		// foreach($result as $password){
 			if(password_verify($accPassword, $result["password"])){
 				return  true;
 			}else{
@@ -113,10 +112,6 @@ class ModelAccounts{
 			}
 			$stmt -> close();
 			$stmt = null;
-
-
-		// }
-
 
 	}	
 

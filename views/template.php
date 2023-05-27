@@ -51,6 +51,14 @@
 
         <link rel="shortcut icon" href="views/img/logo_circle.png" />
 
+        
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bluebird/3.3.5/bluebird.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
 
 
     
@@ -123,6 +131,7 @@
     
 
 	<!-- Plugin js for this page -->
+    <script src="views/assets/vendors/typeahead.js/typeahead.bundle.min.js"></script>
     <script src="views/assets/vendors/jquery-validation/jquery.validate.min.js"></script>
 	<script src="views/assets/vendors/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
 	<script src="views/assets/vendors/inputmask/jquery.inputmask.min.js"></script>
@@ -138,6 +147,8 @@
 	<script src="views/assets/vendors/clipboard/clipboard.min.js"></script>
     <script src="views/assets/vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="views/assets/vendors/datatables.net-bs5/dataTables.bootstrap5.js"></script>
+
+  
 	<!-- End plugin js for this page -->
 
     <!-- Custom js for this page -->
@@ -170,6 +181,78 @@
     <script src="views/js/email.js"></script>
     <script src="views/js/report.js"></script>
     <script src="views/js/lockscreen.js"></script>
+
+    <script src="views/assets/js/typeahead.js"></script>
+
+    <script src="JSPrintManager.js"></script>
+
+
+
+                            
+
+
+
+<script>
+
+    //WebSocket settings
+    JSPM.JSPrintManager.auto_reconnect = true;
+    JSPM.JSPrintManager.start();
+    JSPM.JSPrintManager.WS.onStatusChanged = function () {
+        if (jspmWSStatus()) {
+            //get client installed printers
+            JSPM.JSPrintManager.getPrinters().then(function (myPrinters) {
+                var options = '';
+                for (var i = 0; i < myPrinters.length; i++) {
+				    options += '<option>' + myPrinters[i] + '</option>';
+				}
+                $('#installedPrinterName').html(options);
+            });
+        }
+    };
+
+    //Check JSPM WebSocket status
+    function jspmWSStatus() {
+        if (JSPM.JSPrintManager.websocket_status == JSPM.WSStatus.Open)
+            return true;
+        else if (JSPM.JSPrintManager.websocket_status == JSPM.WSStatus.Closed) {
+            alert('JSPrintManager (JSPM) is not installed or not running! Download JSPM Client App from https://neodynamic.com/downloads/jspm');
+            return false;
+        }
+        else if (JSPM.JSPrintManager.websocket_status == JSPM.WSStatus.Blocked) {
+            alert('JSPM has blocked this website!');
+            return false;
+        }
+    }
+
+    //Do printing...
+    function print(o) {
+        if (jspmWSStatus()) {
+            //generate an image of HTML content through html2canvas utility
+            html2canvas(document.getElementById('tt'), { scale: 5 }).then(function (canvas) {
+
+                //Create a ClientPrintJob
+                var cpj = new JSPM.ClientPrintJob();
+                //Set Printer type (Refer to the help, there many of them!)
+                    cpj.clientPrinter = new JSPM.DefaultPrinter();
+                //Set content to print... 
+                var b64Prefix = "data:image/png;base64,";
+                var imgBase64DataUri = canvas.toDataURL("image/png");
+                var imgBase64Content = imgBase64DataUri.substring(b64Prefix.length, imgBase64DataUri.length);
+
+                var myImageFile = new JSPM.PrintFile(imgBase64Content, JSPM.FileSourceType.Base64, 'report.png', 1);
+                //add file to print job
+                cpj.files.push(myImageFile);
+
+                //Send print job to printer!
+                cpj.sendToClient();
+
+
+            });
+        }
+    }
+
+    </script>
+    
 
     
 

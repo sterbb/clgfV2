@@ -1,6 +1,6 @@
 $(function() {
 
-    $("#report-range, #check-adult, #check-hype, #check-jkids, #check-kaya").change(function(){
+    $("#report-range, #check-adult, #check-hype, #check-jkids, #check-kaya, #event-name , #report-time").change(function(){
 
         var date1 = "";
         var date2 = "";
@@ -19,7 +19,16 @@ $(function() {
         var jkids = $('#check-jkids').is(':checked'); 
         var kaya = $('#check-kaya').is(':checked'); 
 
+        var time = $('#report-time').val();
+
+        var name = $('#event-name').val();
+
+        alert(time);
+        alert(name);
+
         var attdata = new FormData();
+        attdata.append("time", time);
+        attdata.append("name", name);
         attdata.append("date1", date1);
         attdata.append("date2", date2);
         attdata.append("adult", adult.toString());
@@ -51,23 +60,26 @@ $(function() {
                     
                 for(var i = 0; i <answer.length; i++){
                 
-                        html.push('<h4 class="py-3">'+  answer[i][ (answer[i].length) -3] + '  -  '+ answer[i][ (answer[i].length) -2]+ '  (' + answer[i][(answer[i].length) -1]+')</h4>');
-                        html.push('<table class="table mx-auto w-auto border border-5 ">');
+                        html.push('<h4 class="py-3">'+  answer[i][ (answer[i].length) -6] + '  -  '+ answer[i][ (answer[i].length) -5]+ '  (' + answer[i][(answer[i].length) -4]+')</h4>');
+                        html.push('<table class="table mx-auto w-auto border border-5 p-5">');
                             html.push("<thead class='border border-2'>");
                                 html.push("<tr>");
-                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3'  style='width:50%'>NAME</th>");
-                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3' >CATEGORY</th>");
-                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3' >ATTENDANCE TIME</th>");
-                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3' >VENUE</th>");
-                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3' >LOCATION</th>");
+                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3'  style='width:20%'>NAME</th>");
+                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3' style='width:10%'>CATEGORY</th>");
+                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3' style='width:20%'>ATTENDANCE TIME</th>");
+                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3' style='width:25%'>VENUE</th>");
+                                    html.push("<th class='table table-bordered  border border-3 justify-content-center p-3' style='width:25%'>LOCATION</th>");
 
                                 html.push("</tr>");
                             html.push("</thead>");
 
-                            for(var i2 = 0; i2 <answer[i].length -3; i2++){
+                            for(var i2 = 0; i2 <answer[i].length -6; i2++){
                                 html.push('<tr class="border border-3">');
                                  html.push('<td class="border border-3">'+ answer[i][i2][1]+'</td>')
                                  html.push('<td class="border border-3">'+ answer[i][i2][3]+'</td>')
+                                 html.push('<td class="border border-3">'+ answer[i][(answer[i].length) -3]+'</td>')
+                                 html.push('<td class="border border-3">'+ answer[i][(answer[i].length) -1]+'</td>')
+                                 html.push('<td class="border border-3">'+ answer[i][(answer[i].length) -2]+'</td>')
                   
                                 html.push('</tr>');
 
@@ -78,7 +90,10 @@ $(function() {
                             html.push('<tr class="border border-2">');
 
                             html.push('<td class="" style=" width:50px;"></td>')
-                            html.push('<td class="border border-2" style=" width:200px;"> TOTAL ATTENDEE:&nbsp&nbsp&nbsp'+ total_attendee+'</td>')
+                            html.push('<td class="" style=" width:50px;"></td>')
+                            html.push('<td class="" style=" width:50px;"></td>')
+                            html.push('<td class="" style=" width:50px;"></td>')
+                            html.push('<td class="border border-2 p-3" style=" width:200px;"> TOTAL ATTENDEE:&nbsp&nbsp&nbsp'+ total_attendee+'</td>')
                 
                             html.push('</tr>');
                            
@@ -109,38 +124,38 @@ $(function() {
 
     });
 
-    $("#btn-print-attendance").click(function(){
-        var prange = $("#report-range").val();
+    // $("#btn-print-attendance").click(function(){
+    //     var prange = $("#report-range").val();
 
-        var pdate1 = "";
-        var pdate2 = "";
-        if(prange.length <= 10){
-            pdate1=prange.substring(0,10).split("-").reverse().join("-");
+    //     var pdate1 = "";
+    //     var pdate2 = "";
+    //     if(prange.length <= 10){
+    //         pdate1=prange.substring(0,10).split("-").reverse().join("-");
 
-        }else{
-            pdate1=prange.substring(0,10).split("-").reverse().join("-");
-            pdate2=prange.substring(14,24).split("-").reverse().join("-");
-        }
-        var padult =  $('#check-adult').is(':checked'); 
-        var phype =  $("#check-hype").is(':checked'); 
-        var pjkids =  $("#check-jkids").is(':checked'); 
-        var pkaya =  $("#check-kaya").is(':checked'); 
+    //     }else{
+    //         pdate1=prange.substring(0,10).split("-").reverse().join("-");
+    //         pdate2=prange.substring(14,24).split("-").reverse().join("-");
+    //     }
+    //     var padult =  $('#check-adult').is(':checked'); 
+    //     var phype =  $("#check-hype").is(':checked'); 
+    //     var pjkids =  $("#check-jkids").is(':checked'); 
+    //     var pkaya =  $("#check-kaya").is(':checked'); 
 
    
         
 
     
-        document.cookie = 'pdate1 ='+ pdate1;
-        document.cookie = 'pdate2 ='+ pdate2;
-        document.cookie = 'padult ='+ padult;
-        document.cookie = 'phype ='+ phype;
-        document.cookie = 'pjkids ='+ pjkids;
-        document.cookie = 'pkaya ='+ pkaya;
+    //     document.cookie = 'pdate1 ='+ pdate1;
+    //     document.cookie = 'pdate2 ='+ pdate2;
+    //     document.cookie = 'padult ='+ padult;
+    //     document.cookie = 'phype ='+ phype;
+    //     document.cookie = 'pjkids ='+ pjkids;
+    //     document.cookie = 'pkaya ='+ pkaya;
 
-        window.open("extensions/tcpdf/pdf/attendance_list.php", "_blank");
+    //     window.open("extensions/tcpdf/pdf/attendance_list.php", "_blank");
 
 
-    });
+    // });
     
 
 

@@ -2,11 +2,11 @@
 
 require_once "connection.php";
 class ModelReport{
-	static public function mdlShowAttendanceReport($date1, $date2, $adult, $hype, $kaya, $jkids){ 
+	static public function mdlShowAttendanceReport($date1, $date2, $adult, $hype, $kaya, $jkids, $name, $time){ 
         $db = new Connection();
 		$pdo = $db->connect();
 
-        
+        // where CLause 1 for date range, name and time
         try{
         	$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             $pdo->beginTransaction();
@@ -16,16 +16,25 @@ class ModelReport{
             }else{
                 $daterange = "WHERE sdate = '$date1' ";
             }
+
+            if($name !=''){
+                $eventname = "AND eventName = '$name' ";
+            }else{
+                $eventname = '';
+            }
+
+            if($time !=''){
+                $eventtime = "AND stime LIKE '%$time' ";
+                
+            }else{
+                $eventtime = '';
+            }
     
-            $whereclause = $daterange;
-
-            $stmt = (new Connection)->connect()->prepare("SELECT * FROM attendance  $whereclause ORDER BY sdate ASC" );
-            $stmt -> execute();
-            $result = $stmt -> fetchAll();
+            $whereclause = $daterange . $eventname . $eventtime;
 
 
-            $answer = array();
 
+            // where clause for type of event
             $adult_status;
             $hype_status;
             $jkids_status;
@@ -40,28 +49,28 @@ class ModelReport{
             
 
             if($adult == "true"){
-                $adult_status = " (category = '$nadult')";
+                $adult_status = " (stype = '$nadult')";
                 array_push($c_array, $adult_status);
             }else{
                 $adult_status = "";
             }
 
             if($hype == "true"){
-                $hype_status = "(category = '$nhype')";
+                $hype_status = "(stype = '$nhype')";
                 array_push($c_array, $hype_status);
             }else{
                 $hype_status = "";
             }
 
             if($jkids == "true"){
-                $jkids_status = "(category = '$njkids')";
+                $jkids_status = "(stype = '$njkids')";
                 array_push($c_array, $jkids_status);
             }else{
                 $jkids_status = "";
             }
 
             if($kaya == "true"){
-                $kaya_status = "(category = '$nkaya')";
+                $kaya_status = "(stype = '$nkaya')";
                 array_push($c_array, $kaya_status);
             }else{
                 $kaya_status = "";
@@ -85,23 +94,42 @@ class ModelReport{
                 $whereclause2 = "AND (" . $insideclause . ")";
             }
 
-            //$whereclause2 = $adult_status . $hype_status . $kaya_status . $jkids_status;
+            $allWhereclause = $whereclause . $whereclause2;
+           
+
+            $stmt = (new Connection)->connect()->prepare("SELECT * FROM attendance  $allWhereclause ORDER BY sdate ASC" );
+            $stmt -> execute();
+            $result = $stmt -> fetchAll();
+
+
+            $answer = array();
+
+     
 
             foreach($result as $row){
                 $attid = $row["attendanceid"];
+                $attname = $row["eventName"];
                 $attdate = $row["sdate"];
                 $atttype = $row["stype"];
+                $atttime = $row["stime"];
+                $attlocation = $row["eventLocation"];
+                $attvenue = $row["venue"];
+
+                
                 
                 $att_status = "1";
 
-                $stmt2 = (new Connection)->connect()->prepare("SELECT * FROM attendancelist  WHERE attendanceid = :attendanceid  $whereclause2 AND astatus = :astatus");
+                $stmt2 = (new Connection)->connect()->prepare("SELECT * FROM attendancelist  WHERE attendanceid = :attendanceid AND astatus = :astatus");
                 $stmt2 -> bindParam(":attendanceid", $attid, PDO::PARAM_STR);
                 $stmt2 -> bindParam(":astatus", $att_status, PDO::PARAM_STR);
                 $stmt2 -> execute();
                 $result2= $stmt2 -> fetchAll();
                 array_push($result2, $atttype);
                 array_push($result2, $attdate);
-                array_push($result2, $attid);
+                array_push($result2, $attname);
+                array_push($result2, $atttime);
+                array_push($result2, $attlocation);
+                array_push($result2, $attvenue);
 
                 array_push($answer, $result2);
 

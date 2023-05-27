@@ -14,8 +14,10 @@ class AjaxGetAttendanceReport{
         $hype = $this->hype;
         $jkids = $this->jkids;
         $kaya = $this->kaya;
+        $name = $this->name;
+        $time = $this->time;
 
-        $answer = (new ControllerReport)->ctrShowAttendanceReport($date1, $date2, $adult, $hype, $kaya, $jkids);
+        $answer = (new ControllerReport)->ctrShowAttendanceReport($date1, $date2, $adult, $hype, $kaya, $jkids, $name, $time);
         echo json_encode($answer);
 		
 	}
@@ -28,5 +30,7 @@ $att_report -> adult = $_POST["adult"];
 $att_report -> hype = $_POST["hype"];
 $att_report -> jkids = $_POST["jkids"];
 $att_report -> kaya = $_POST["kaya"];
+$att_report -> name = $_POST["name"];
+$att_report -> time = $_POST["time"];
 
 $att_report -> ajaxDisplayAttendanceReport();

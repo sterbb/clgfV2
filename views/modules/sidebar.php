@@ -81,15 +81,6 @@ if(isset($_SESSION["name"])){
             </li>
 
 
-
-                    <!-- Button trigger modal -->
-                  <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#lockScreen" data-backdrop="static" data-keyboard="false">
-                  Launch demo modal
-                  </button>
-
-            
-
-            
       
         </ul>
       </div>

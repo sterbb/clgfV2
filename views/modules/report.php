@@ -6,12 +6,13 @@
 </nav>
 
 <div class="row">
+
     <div class="col-6">
-        Time and Date
+
     </div>
     <div class="col-6">
         <div class="row justify-content-around align-items-center">
-            <div class="col-4">
+            <div class="col-3">
                 <label for="report-time">Time</label>
                 <select class="form-select" id="report-time" name="report-time"  >
                     <!-- <option value="" selected hidden></option> -->
@@ -22,9 +23,17 @@
             </div>
 
             <div class="col-4">
-                <label for="flatpickr-range"  class="form-label">Date</label>
-                <input class="form-control flatpickr" type="text" placeholder="Select Dates.." id="report-range" name="flatpickr-range">
+                <label for="flatpickr-range"  class="form-label">Date <sup style="color:red;">*</sup></label>
+                <input class="form-control flatpickr" type="text" placeholder="Select Dates.." id="report-range" name="flatpickr-range" required>
             </div>
+
+            <div class="col-5 " style="width:40%;">
+                <label class="form-label">Event Name</label>
+                <div id="the-basics"  >
+                    <input id="event-name" class="typeahead" type="text" placeholder="Enter Church Event">
+                </div>
+            </div>
+
         </div>
 
 
@@ -51,11 +60,13 @@
                  <input type="checkbox" style="height: 3em;width:3em;" class= "form-check-input" id="check-kaya" name="check-kaya" value="1" />
             </div>
         </div>
+
+
         
     </div>
 </div>
 
-<div class="border border-7  mx-auto report_preview" id="tt">
+<div class="border border-7  mx-auto report_preview p-5" id="tt">
 
    
 </div>
@@ -63,4 +74,4 @@
 
 </div>
 
-<button type="button" class="btn btn-primary btn-rounded px-4 " style="margin-left:1500px;" id="btn-print-attendance"><i class="fa fa-save"></i>&nbsp;&nbsp;PRINT</button>
+<button type="button" class="btn btn-primary btn-rounded px-4 " style="margin-left:1500px;" id="btn-print-attendance" onclick="print();"><i class="fa fa-save"></i>&nbsp;&nbsp;PRINT</button>

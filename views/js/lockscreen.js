@@ -12,28 +12,14 @@ $(function(){
 
     function resetInactivityTimer() {
         clearTimeout(inactivityTimeout); // Clear the timeout
-        startInactivityTimer(5); // Set the inactivity timeout duration (60 seconds in this example)
+        startInactivityTimer(5); 
     }
 
 
       function showLockScreen() {
-
+        $("#passwordError").hide();
         $('#lockScreen').modal('show');
 
-
-
-
-        // var password = "1234"; // Replace with your desired password
-        // var userPassword = prompt("Enter the password to unlock:"); // Display password prompt to the user
-      
-        // if (userPassword === password) {
-        //   // Password matches, hide lock screen and reset inactivity timer
-        //   hideLockScreen();
-        //   resetInactivityTimer();
-        // } else {
-        //   // Password does not match, display error message or take appropriate action
-        //   alert("Incorrect password. Please try again.");
-        // }
       }
       
       function hideLockScreen() {
@@ -42,7 +28,7 @@ $(function(){
       
       // Start the inactivity timer when the page loads or when user activity is detected
       document.addEventListener("DOMContentLoaded", function() {
-        startInactivityTimer(5); // Set the initial inactivity timeout duration (60 seconds in this example)
+        startInactivityTimer(5);
       });
       
       // Reset the inactivity timer when user activity is detected
@@ -61,8 +47,6 @@ $(function(){
 
         var accID = $("#accountID").text();
 
-        alert(password);
-
         var data = new FormData();
         data.append("password",password);
         data.append("accID",accID);
@@ -76,11 +60,13 @@ $(function(){
             processData: false,
             dataType: "text",
             success: function(answer) {
-                console.log(answer);
                 if(answer == "true"){
                     hideLockScreen();
                     resetInactivityTimer();
+                    $("#passwordLock").val("");
+
                 }else{
+                    $("#passwordLock").val("");
                     $("#passwordError").show();
                 }
 
