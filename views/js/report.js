@@ -61,7 +61,7 @@ $(function() {
                 for(var i = 0; i <answer.length; i++){
                 
                         html.push('<h4 class="py-3">'+  answer[i][ (answer[i].length) -6] + '  -  '+ answer[i][ (answer[i].length) -5]+ '  (' + answer[i][(answer[i].length) -4]+')</h4>');
-                        html.push('<table class="table mx-auto w-auto border border-5 p-5">');
+                        html.push('<table class="table w-auto border border-5" >');
                             html.push("<thead class='border border-2'>");
                                 html.push("<tr>");
                                     html.push("<th class='table table-bordered  border border-3 justify-content-center p-3'  style='width:20%'>NAME</th>");
@@ -75,7 +75,7 @@ $(function() {
 
                             for(var i2 = 0; i2 <answer[i].length -6; i2++){
                                 html.push('<tr class="border border-3">');
-                                 html.push('<td class="border border-3">'+ answer[i][i2][1]+'</td>')
+                                 html.push('<td class="border border-3 py-2">'+ answer[i][i2][1]+'</td>')
                                  html.push('<td class="border border-3">'+ answer[i][i2][3]+'</td>')
                                  html.push('<td class="border border-3">'+ answer[i][(answer[i].length) -3]+'</td>')
                                  html.push('<td class="border border-3">'+ answer[i][(answer[i].length) -1]+'</td>')

@@ -25,6 +25,10 @@ class saveAttendance{
       $type = "General Event";
     }
 
+    if($type == 'Sunday Fellowship'){
+      $eventname = "Sunday Fellowship";
+    }
+
     $data = array("stime"=>$stime,
                   "sdate"=>$sdate,
                   "type"=>$type,

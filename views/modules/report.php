@@ -66,7 +66,7 @@
     </div>
 </div>
 
-<div class="border border-7  mx-auto report_preview p-5" id="tt">
+<div class="border border-7   report_preview " id="tt">
 
    
 </div>
